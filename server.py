@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from pyrogram import Client
 import os
+import socket
+socket.setdefaulttimeout(30)
 
 app = FastAPI()
 
@@ -13,7 +15,10 @@ tg = Client(
     "streambot", 
     api_id=api_id, 
     api_hash=api_hash, 
-    bot_token=bot_token)
+    bot_token=bot_token, 
+    workers=2, 
+    ipv6=False
+)
 
 @app.on_event("startup")
 async def startup():
