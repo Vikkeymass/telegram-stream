@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Stream Library</title>
+
+<style>
+
+body{
+background:black;
+color:white;
+font-family:Arial;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:20px;
+}
+
+.movie{
+cursor:pointer;
+}
+
+video{
+width:100%;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>My Streaming Server</h1>
+
+<div class="grid">
+
+<div class="movie" onclick="play('FILE_ID_1')">
+<img src="poster1.jpg" width="200">
+</div>
+
+<div class="movie" onclick="play('FILE_ID_2')">
+<img src="poster2.jpg" width="200">
+</div>
+
+</div>
+
+<video id="player" controls></video>
+
+<script>
+
+function play(fileid){
+
+let player=document.getElementById("player")
+
+player.src="http://127.0.0.1:8000/stream/"+fileid
+
+player.play()
+
+}
+
+</script>
+
+</body>
+</html>
