@@ -27,3 +27,26 @@ async def stream(file_id: str):
             yield chunk
 
     return StreamingResponse(generator(), media_type="video/mp4")
+
+active_connections = 0
+MAX_USERS = 10
+
+@app.get("/stream/{file_id}")
+async def stream_video(file_id: str):
+
+    global active_connections
+
+    if active_connections >= MAX_USERS:
+        raise HTTPException(429,"Server full")
+
+    active_connections += 1
+
+    async def generator():
+        try:
+            async for chunk in tg.stream_media(file_id):
+                yield chunk
+        finally:
+            global active_connections
+            active_connections -= 1
+
+    return StreamingResponse(generator(), media_type="video/mp4")
