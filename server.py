@@ -9,7 +9,11 @@ api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("BOT_TOKEN")
 
-tg = Client("streambot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
+tg = Client(
+    "streambot", 
+    api_id=api_id, 
+    api_hash=api_hash, 
+    bot_token=bot_token)
 
 @app.on_event("startup")
 async def startup():
