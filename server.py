@@ -22,31 +22,12 @@ async def shutdown():
 @app.get("/stream/{file_id}")
 async def stream(file_id: str):
 
-    async def generator():
-        async for chunk in tg.stream_media(file_id):
-            yield chunk
+    file_path = await tg.download_media(file_id)
 
-    return StreamingResponse(generator(), media_type="video/mp4")
-
-active_connections = 0
-MAX_USERS = 10
-
-@app.get("/stream/{file_id}")
-async def stream_video(file_id: str):
-
-    global active_connections
-
-    if active_connections >= MAX_USERS:
-        raise HTTPException(429,"Server full")
-
-    active_connections += 1
-
-    async def generator():
-        try:
-            async for chunk in tg.stream_media(file_id):
+    def iterfile():
+        with open(file_path, "rb") as f:
+            while chunk := f.read(1024 * 1024):
                 yield chunk
-        finally:
-            global active_connections
-            active_connections -= 1
 
-    return StreamingResponse(generator(), media_type="video/mp4")
+    return StreamingResponse(iterfile(), media_type="video/mp4")
+
