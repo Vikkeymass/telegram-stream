@@ -5,9 +5,9 @@ import os
 
 app = FastAPI()
 
-api_id = int(os.getenv("37842280"))
-api_hash = os.getenv("2072f15622817236d2ed00bcc4055994")
-bot_token = os.getenv("8747819132:AAEgvpcj9wkcSVGXYLvfoAiKFa8ZsRiA-l8")
+api_id = int(os.getenv("API_ID"))
+api_hash = os.getenv("API_HASH")
+bot_token = os.getenv("BOT_TOKEN")
 
 tg = Client("streambot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
